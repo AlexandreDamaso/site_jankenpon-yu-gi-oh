@@ -10,25 +10,26 @@ const state = {
       type: document.getElementById("card-type"),
    },
    fieldCards: {
-      player: document.getElementById("player-field-card")
-      computer: document.getElementById("computer-field-card")
+      player: document.getElementById("player-field-card"),
+      computer: document.getElementById("computer-field-card"),
    },
    button: document.getElementById("next-duel"),
 };
 
 const playerSides = {
-   player1: "player-field-card",
-   computer: "computer-field-card",
+   player1: "player-cards",
+   computer: "computer-cards",
 }
 
-const pathImages = "./src/icons/"
+// const pathImages = "./src/icons/"
 
 const cardData = [
    {
       id: 0,
       name: "Blue Eyes Ehite Dragon",
       type: "Paper",
-      img: `${pathImages}dragon.png`,
+      // img: `${pathImages}dragon.png`,
+      img: "./src/icons/dragon.png",
       WinOf: [1],
       LoseOf: [2],
    },
@@ -36,7 +37,8 @@ const cardData = [
       id: 1,
       name: "Dark Magician",
       type: "Rock",
-      img: `${pathImages}magician.png`,
+      // img: `${pathImages}magician.png`,
+      img: "./src/icons/magician.png",
       WinOf: [2],
       LoseOf: [0],
    },
@@ -44,7 +46,8 @@ const cardData = [
       id: 2,
       name: "Exodia",
       type: "Scissors",
-      img: `${pathImages}exodia.png`,
+      // img: `${pathImages}exodia.png`,
+      img: "./src/icons/exodia.png",
       WinOf: [0],
       LoseOf: [1],
    },
@@ -55,14 +58,14 @@ const cardData = [
 // }
 
 async function getRandomCardId() {
-   const randomIndex = Math.floor.random() * cardData.length;
+   const randomIndex = Math.floor(Math.random() * cardData.length);
    return cardData[randomIndex].id;
 }
 
 async function createCardImage(randomIdCard, fieldSide) {
    const cardImage = document.createElement("img");
    cardImage.setAttribute("height", "100px");
-   cardImage.setAttribute("src", ".src/icons/card-back.png");
+   cardImage.setAttribute("src", "./src/icons/card-back.png");
    cardImage.setAttribute("data-id", randomIdCard);
    cardImage.classList.add("card");
    if (fieldSide === playerSides.player1) {
