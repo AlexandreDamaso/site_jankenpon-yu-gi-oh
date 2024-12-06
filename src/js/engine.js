@@ -21,15 +21,14 @@ const playerSides = {
    computer: "computer-cards",
 }
 
-// const pathImages = "./src/icons/"
+const pathImages = "./src/icons/"
 
 const cardData = [
    {
       id: 0,
       name: "Blue Eyes Ehite Dragon",
       type: "Paper",
-      // img: `${pathImages}dragon.png`,
-      img: "./src/icons/dragon.png",
+      img: `${pathImages}dragon.png`,
       WinOf: [1],
       LoseOf: [2],
    },
@@ -37,8 +36,7 @@ const cardData = [
       id: 1,
       name: "Dark Magician",
       type: "Rock",
-      // img: `${pathImages}magician.png`,
-      img: "./src/icons/magician.png",
+      img: `${pathImages}magician.png`,
       WinOf: [2],
       LoseOf: [0],
    },
@@ -46,8 +44,7 @@ const cardData = [
       id: 2,
       name: "Exodia",
       type: "Scissors",
-      // img: `${pathImages}exodia.png`,
-      img: "./src/icons/exodia.png",
+      img: `${pathImages}exodia.png`,
       WinOf: [0],
       LoseOf: [1],
    },
@@ -65,18 +62,19 @@ async function getRandomCardId() {
 async function createCardImage(randomIdCard, fieldSide) {
    const cardImage = document.createElement("img");
    cardImage.setAttribute("height", "100px");
-   cardImage.setAttribute("src", "./src/icons/card-back.png");
+   cardImage.setAttribute("src", `${pathImages}card-back.png`);
    cardImage.setAttribute("data-id", randomIdCard);
    cardImage.classList.add("card");
    if (fieldSide === playerSides.player1) {
+      cardImage.addEventListener("mouseover", () => {
+         drawSelectCard(randomIdCard);
+      });
+
       cardImage.addEventListener("click", () => {
          setCardsField(cardImage.getAttribute("data-id"));
       });
    }
 
-   cardImage.addEventListener("mouseover", () => {
-      drawSelectCard(randomIdCard);
-   })
 
    return cardImage;
 }
@@ -88,6 +86,12 @@ async function drawCards(cardNumbers, fieldSide) {
 
       document.getElementById(fieldSide).appendChild(cardImage);
    }
+}
+
+async function drawSelectCard(id) {
+   state.cardSprites.avatar.src = cardData[id].img;
+   state.cardSprites.name.innerText = cardData[id].name;
+   state.cardSprites.type.innerText = "Attribute: " + cardData[id].type;
 }
 
 function init() {
