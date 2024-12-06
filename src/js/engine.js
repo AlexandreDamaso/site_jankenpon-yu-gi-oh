@@ -75,7 +75,6 @@ async function createCardImage(randomIdCard, fieldSide) {
       });
    }
 
-
    return cardImage;
 }
 
@@ -86,6 +85,23 @@ async function drawCards(cardNumbers, fieldSide) {
 
       document.getElementById(fieldSide).appendChild(cardImage);
    }
+}
+
+async function setCardsField(cardId) {
+   await removeAllCardsImage();
+
+   let computerCardId = await getRandomCardId();
+   
+   state.fieldCards.player.style.display = "block"
+   state.fieldCards.computer.style.display = "block"
+
+   state.fieldCards.player.src = cardData[cardId].img;
+   state.fieldCards.computer.src = cardData[computerCardId].img;
+
+   let duelResults = await checkDuelResults(cardId, computerCardId);
+
+   await updateScore();
+   await drawButton(duelResults);
 }
 
 async function drawSelectCard(id) {
