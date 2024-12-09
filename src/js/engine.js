@@ -108,7 +108,7 @@ async function setCardsField(cardId) {
 }
 
 async function drawButton(text) {
-   state.actions.button.innerText = text;
+   state.actions.button.innerText = text.toUpperCase();
    state.actions.button.style.display = "block";
 }
 
@@ -117,19 +117,20 @@ async function updateScore() {
 }
 
 async function checkDuelResults(playerCardId, computerCardId) {
-   let duelResults = "Empate";
+   let duelResults = "draw";
    let playerCard = cardData[playerCardId];
 
    if (playerCard.WinOf.includes(computerCardId)) {
-      duelResults = "Ganhou";
+      duelResults = "win";
       state.score.playerScore++;
    }
-
+   
    if (playerCard.LoseOf.includes(computerCardId)) {
-      duelResults = "Perdeu";
+      duelResults = "lose";
       state.score.computerScore++;
    }
-
+   
+   await playAudio(duelResults);
    return duelResults;
 }
 
@@ -146,6 +147,30 @@ async function drawSelectCard(id) {
    state.cardSprites.avatar.src = cardData[id].img;
    state.cardSprites.name.innerText = cardData[id].name;
    state.cardSprites.type.innerText = "Attribute: " + cardData[id].type;
+}
+
+async function resetDuel() {
+   state.cardSprites.avatar.src = "";
+   state.actions.button.style.display = "none";
+
+   state.fieldCards.player.style.display = "none"
+   state.fieldCards.computer.style.display = "none"
+
+
+   init();
+
+
+
+}
+
+async function playAudio(status) {
+   const audio = new Audio(`./src/audio/${status}.wav`);
+   try {
+      audio.play();
+   } catch (error) {
+      
+   }
+
 }
 
 function init() {
