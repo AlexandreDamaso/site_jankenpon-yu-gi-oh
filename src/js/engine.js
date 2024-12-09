@@ -2,7 +2,10 @@ const state = {
    score: {
       playerScore: 0,
       computerScore: 0,
-      scoreBox: document.getElementById("score_points"),
+      drawScore: 0,
+      scoreBoxWin: document.getElementById("score_points_win"),
+      scoreBoxLose: document.getElementById("score_points_lose"),
+      scoreBoxDraw: document.getElementById("score_points_draw"),
    },
    cardSprites: {
       avatar: document.getElementById("card-image"),
@@ -130,21 +133,24 @@ async function drawButton(text) {
 };
 
 async function updateScore() {
-   state.score.scoreBox.innerText = `Win: ${state.score.playerScore} | Lose: ${state.score.computerScore}`;
+   state.score.scoreBoxWin.innerText = state.score.playerScore;
+   state.score.scoreBoxLose.innerText = state.score.computerScore;
+   state.score.scoreBoxDraw.innerText = state.score.drawScore;
 };
 
 async function checkDuelResults(playerCardId, computerCardId) {
-   let duelResults = "draw";
+   let duelResults = "";
    let playerCard = cardData[playerCardId];
 
    if (playerCard.WinOf.includes(computerCardId)) {
       duelResults = "win";
       state.score.playerScore++;
-   }
-   
-   if (playerCard.LoseOf.includes(computerCardId)) {
+   } else if (playerCard.LoseOf.includes(computerCardId)) {
       duelResults = "lose";
       state.score.computerScore++;
+   } else {
+      duelResults = "draw";
+      state.score.drawScore++;
    }
    
    await playAudio(duelResults);
@@ -189,7 +195,7 @@ function init() {
    drawCards(5, state.playerSides.computer);
 
    const bgm = document.getElementById("bgm");
-   bgm.volume = 0.5;
+   bgm.volume = 0.4;
    bgm.play();
 };
 
