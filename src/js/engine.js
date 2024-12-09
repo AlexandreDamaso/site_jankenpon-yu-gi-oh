@@ -179,9 +179,6 @@ async function resetDuel() {
 
 
    init();
-
-
-
 }
 
 async function playAudio(status) {
